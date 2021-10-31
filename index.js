@@ -66,7 +66,7 @@ async function run() {
         const order = req.body;
 
         const result = await ordersCollection.insertOne(order);
-        console.log(`A document was inserted with the _id: ${result.insertedId}`);
+        // console.log(`A document was inserted with the _id: ${result.insertedId}`);
         res.json(result)
     });
 
@@ -93,6 +93,24 @@ async function run() {
         res.json(result);
         console.log(result);
     });
+
+
+
+
+    // update api
+    app.put('/users/:id' , async(req, res) => {
+        const id = req.params.id;
+        const updatedUser = req.body;
+        const options = { upsert: true };
+        const filter = { _id:ObjectId(id) };
+        const updateDoc = {
+          $set: {
+            status : "Approved"
+          },
+        };
+        const result = await usersCollection.updateOne(filter, updateDoc, options);
+        res.send(result)
+    })
 
 
 
